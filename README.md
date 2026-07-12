@@ -1,52 +1,55 @@
 # n8n-nodes-libretranslate
 
-Nœud communautaire n8n pour interroger l'API [LibreTranslate](https://libretranslate.com/docs/), une API de traduction automatique libre et open source (AGPL-3.0).
+n8n community node for the [LibreTranslate](https://libretranslate.com/docs/) API, a free and open source (AGPL-3.0) machine translation API.
 
-[n8n](https://n8n.io/) est une plateforme d'automatisation de workflows sous [licence fair-code](https://docs.n8n.io/reference/license/).
+[n8n](https://n8n.io/) is a [fair-code licensed](https://docs.n8n.io/reference/license/) workflow automation platform.
+
+Other languages: [Français](README.fr.md) · [Español](README.es.md) · [Deutsch](README.de.md)
 
 [Installation](#installation)
-[Opérations](#opérations)
+[Operations](#operations)
 [Credentials](#credentials)
-[Compatibilité](#compatibilité)
-[Ressources](#ressources)
-[Développement](#développement)
+[Compatibility](#compatibility)
+[Resources](#resources)
+[Version history](#version-history)
+[Development](#development)
 
 ## Installation
 
-Suivez le [guide d'installation](https://docs.n8n.io/integrations/community-nodes/installation/) de la documentation n8n sur les nœuds communautaires, et installez le package `n8n-nodes-libretranslate`.
+Follow the [installation guide](https://docs.n8n.io/integrations/community-nodes/installation/) in the n8n community nodes documentation, and install the `n8n-nodes-libretranslate` package.
 
-## Opérations
+## Operations
 
-- **Translate Text** — traduit un texte (`POST /translate`), avec choix de la langue source (ou détection automatique), de la langue cible, du format (texte/HTML) et du nombre de traductions alternatives.
-- **Detect Language** — détecte la langue d'un texte (`POST /detect`).
-- **List Languages** — liste les langues et paires de traduction disponibles sur l'instance (`GET /languages`).
-- **Translate File** — traduit un fichier binaire (`POST /translate_file`), à partir d'une propriété binaire de l'item d'entrée.
-- **Suggest Translation** — propose une amélioration de traduction (`POST /suggest`).
+- **Translate Text** — translates a text (`POST /translate`), with a choice of source language (or automatic detection), target language, format (text/HTML), and number of alternative translations.
+- **Detect Language** — detects the language of a text (`POST /detect`).
+- **List Languages** — lists the languages and translation pairs available on the instance (`GET /languages`).
+- **Translate File** — translates a binary file (`POST /translate_file`), read from a binary property of the input item.
+- **Suggest Translation** — submits a translation improvement (`POST /suggest`).
 
-Les listes de langues (source/cible) sont chargées dynamiquement depuis l'instance configurée via `GET /languages`.
+Source/target language lists are loaded dynamically from the configured instance via `GET /languages`.
 
 ## Credentials
 
-Le type de credential `LibreTranslate API` comprend :
+The `LibreTranslate API` credential type has:
 
-- **Base URL** (requis) — URL de l'instance LibreTranslate, par exemple `https://libretranslate.com` ou l'URL d'une instance auto-hébergée.
-- **API Key** (optionnel) — clé API, à renseigner uniquement si l'instance ciblée en exige une. Elle est transmise dans le corps (ou en paramètre de requête) de chaque appel, comme attendu par l'API LibreTranslate.
+- **Base URL** (required) — the LibreTranslate instance URL, e.g. `https://libretranslate.com` or a self-hosted instance URL.
+- **API Key** (optional) — API key, only needed if the target instance requires one. It is sent as a query parameter on each call, as expected by the LibreTranslate API.
 
-## Compatibilité
+## Compatibility
 
-Construit avec `n8n-workflow` ^2.16, nécessite Node.js >=20.15. Testé contre l'API LibreTranslate v1.9.x.
+Built against `n8n-workflow` ^2.16, requires Node.js >=20.15. Tested against LibreTranslate API v1.9.x.
 
-## Ressources
+## Resources
 
-- [Documentation des nœuds communautaires n8n](https://docs.n8n.io/integrations/#community-nodes)
-- [Documentation de l'API LibreTranslate](https://libretranslate.com/docs/)
-- [Dépôt LibreTranslate](https://github.com/LibreTranslate/LibreTranslate)
+- [n8n community nodes documentation](https://docs.n8n.io/integrations/#community-nodes)
+- [LibreTranslate API documentation](https://libretranslate.com/docs/)
+- [LibreTranslate repository](https://github.com/LibreTranslate/LibreTranslate)
 
-## Historique des versions
+## Version history
 
-- 0.1.0 — version initiale : Translate Text, Detect Language, List Languages, Translate File, Suggest Translation.
+- 0.1.0 — initial release: Translate Text, Detect Language, List Languages, Translate File, Suggest Translation.
 
-## Développement
+## Development
 
 ```bash
 npm install
@@ -54,13 +57,13 @@ npm run build
 npm run lint
 ```
 
-### Tester localement dans n8n
+### Testing locally in n8n
 
 ```bash
 npm run build
 npm link
-cd ~/.n8n/custom   # ou le dossier custom de votre installation n8n
+cd ~/.n8n/custom   # or your n8n instance's custom folder
 npm link n8n-nodes-libretranslate
 ```
 
-Puis redémarrez n8n. Le nœud « LibreTranslate » apparaît dans la liste des nœuds.
+Then restart n8n. The "LibreTranslate" node appears in the nodes list.
