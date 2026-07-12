@@ -1,6 +1,6 @@
 {
 	"name": "n8n-nodes-libretranslate-api",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "Nœud n8n communautaire pour interroger l'API LibreTranslate (traduction, détection de langue, traduction de fichiers)",
 	"license": "MIT",
 	"homepage": "https://github.com/tsnaketech/n8n-nodes-libretranslate-api",
