@@ -70,7 +70,7 @@ export class LibreTranslate implements INodeType {
     },
     group: ['transform'],
     version: 1,
-    subtitle: '={{$parameter["operation"]}}',
+    subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
     description: "Traduire du texte ou des fichiers via l'API LibreTranslate",
     defaults: {
       name: 'LibreTranslate',
@@ -86,10 +86,49 @@ export class LibreTranslate implements INodeType {
     ],
     properties: [
       {
+        displayName: 'Resource',
+        name: 'resource',
+        type: 'options',
+        noDataExpression: true,
+        options: [
+          { name: 'File', value: 'file' },
+          { name: 'Language', value: 'language' },
+          { name: 'Translation', value: 'translation' },
+        ],
+        default: 'translation',
+      },
+
+      // ---------------- Resource: Translation ----------------
+      {
         displayName: 'Operation',
         name: 'operation',
         type: 'options',
         noDataExpression: true,
+        displayOptions: { show: { resource: ['translation'] } },
+        options: [
+          {
+            name: 'Suggest Translation',
+            value: 'suggestTranslation',
+            description: "Proposer une amélioration de traduction",
+            action: 'Suggest translation',
+          },
+          {
+            name: 'Translate Text',
+            value: 'translate',
+            description: 'Traduire un texte',
+            action: 'Translate text',
+          },
+        ],
+        default: 'translate',
+      },
+
+      // ---------------- Resource: Language ----------------
+      {
+        displayName: 'Operation',
+        name: 'operation',
+        type: 'options',
+        noDataExpression: true,
+        displayOptions: { show: { resource: ['language'] } },
         options: [
           {
             name: 'Detect Language',
@@ -103,29 +142,29 @@ export class LibreTranslate implements INodeType {
             description: 'Lister les langues supportées',
             action: 'List languages',
           },
-          {
-            name: 'Suggest Translation',
-            value: 'suggestTranslation',
-            description: "Proposer une amélioration de traduction",
-            action: 'Suggest translation',
-          },
+        ],
+        default: 'detectLanguage',
+      },
+
+      // ---------------- Resource: File ----------------
+      {
+        displayName: 'Operation',
+        name: 'operation',
+        type: 'options',
+        noDataExpression: true,
+        displayOptions: { show: { resource: ['file'] } },
+        options: [
           {
             name: 'Translate File',
             value: 'translateFile',
             description: 'Traduire un fichier binaire',
             action: 'Translate file',
           },
-          {
-            name: 'Translate Text',
-            value: 'translate',
-            description: 'Traduire un texte',
-            action: 'Translate text',
-          },
         ],
-        default: 'translate',
+        default: 'translateFile',
       },
 
-      // ---------------- Translate Text ----------------
+      // ---------------- Translation: Translate Text ----------------
       {
         displayName: 'Text',
         name: 'text',
@@ -133,7 +172,7 @@ export class LibreTranslate implements INodeType {
         typeOptions: { rows: 4 },
         default: '',
         required: true,
-        displayOptions: { show: { operation: ['translate'] } },
+        displayOptions: { show: { resource: ['translation'], operation: ['translate'] } },
         description: 'Texte à traduire',
       },
       {
@@ -143,7 +182,7 @@ export class LibreTranslate implements INodeType {
         typeOptions: { loadOptionsMethod: 'getSourceLanguages' },
         default: 'auto',
         required: true,
-        displayOptions: { show: { operation: ['translate'] } },
+        displayOptions: { show: { resource: ['translation'], operation: ['translate'] } },
         description:
           'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>',
       },
@@ -154,7 +193,7 @@ export class LibreTranslate implements INodeType {
         typeOptions: { loadOptionsMethod: 'getLanguages' },
         default: '',
         required: true,
-        displayOptions: { show: { operation: ['translate'] } },
+        displayOptions: { show: { resource: ['translation'], operation: ['translate'] } },
         description:
           'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>',
       },
@@ -167,7 +206,7 @@ export class LibreTranslate implements INodeType {
           { name: 'Text', value: 'text' },
         ],
         default: 'text',
-        displayOptions: { show: { operation: ['translate'] } },
+        displayOptions: { show: { resource: ['translation'], operation: ['translate'] } },
         description: 'Format du texte source',
       },
       {
@@ -176,7 +215,7 @@ export class LibreTranslate implements INodeType {
         type: 'collection',
         placeholder: 'Add Field',
         default: {},
-        displayOptions: { show: { operation: ['translate'] } },
+        displayOptions: { show: { resource: ['translation'], operation: ['translate'] } },
         options: [
           {
             displayName: 'Alternatives',
@@ -189,59 +228,14 @@ export class LibreTranslate implements INodeType {
         ],
       },
 
-      // ---------------- Detect Language ----------------
-      {
-        displayName: 'Text',
-        name: 'text',
-        type: 'string',
-        typeOptions: { rows: 4 },
-        default: '',
-        required: true,
-        displayOptions: { show: { operation: ['detectLanguage'] } },
-        description: 'Texte dont la langue doit être détectée',
-      },
-
-      // ---------------- Translate File ----------------
-      {
-        displayName: 'Binary Property',
-        name: 'binaryPropertyName',
-        type: 'string',
-        default: 'data',
-        required: true,
-        displayOptions: { show: { operation: ['translateFile'] } },
-        description: 'Nom de la propriété binaire contenant le fichier à traduire',
-      },
-      {
-        displayName: 'Source Language Name or ID',
-        name: 'source',
-        type: 'options',
-        typeOptions: { loadOptionsMethod: 'getSourceLanguages' },
-        default: 'auto',
-        required: true,
-        displayOptions: { show: { operation: ['translateFile'] } },
-        description:
-          'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>',
-      },
-      {
-        displayName: 'Target Language Name or ID',
-        name: 'target',
-        type: 'options',
-        typeOptions: { loadOptionsMethod: 'getLanguages' },
-        default: '',
-        required: true,
-        displayOptions: { show: { operation: ['translateFile'] } },
-        description:
-          'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>',
-      },
-
-      // ---------------- Suggest Translation ----------------
+      // ---------------- Translation: Suggest Translation ----------------
       {
         displayName: 'Original Text',
         name: 'q',
         type: 'string',
         default: '',
         required: true,
-        displayOptions: { show: { operation: ['suggestTranslation'] } },
+        displayOptions: { show: { resource: ['translation'], operation: ['suggestTranslation'] } },
         description: 'Texte original',
       },
       {
@@ -250,7 +244,7 @@ export class LibreTranslate implements INodeType {
         type: 'string',
         default: '',
         required: true,
-        displayOptions: { show: { operation: ['suggestTranslation'] } },
+        displayOptions: { show: { resource: ['translation'], operation: ['suggestTranslation'] } },
         description: 'Traduction proposée',
       },
       {
@@ -260,7 +254,7 @@ export class LibreTranslate implements INodeType {
         typeOptions: { loadOptionsMethod: 'getLanguages' },
         default: '',
         required: true,
-        displayOptions: { show: { operation: ['suggestTranslation'] } },
+        displayOptions: { show: { resource: ['translation'], operation: ['suggestTranslation'] } },
         description:
           'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>',
       },
@@ -271,7 +265,52 @@ export class LibreTranslate implements INodeType {
         typeOptions: { loadOptionsMethod: 'getLanguages' },
         default: '',
         required: true,
-        displayOptions: { show: { operation: ['suggestTranslation'] } },
+        displayOptions: { show: { resource: ['translation'], operation: ['suggestTranslation'] } },
+        description:
+          'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>',
+      },
+
+      // ---------------- Language: Detect Language ----------------
+      {
+        displayName: 'Text',
+        name: 'text',
+        type: 'string',
+        typeOptions: { rows: 4 },
+        default: '',
+        required: true,
+        displayOptions: { show: { resource: ['language'], operation: ['detectLanguage'] } },
+        description: 'Texte dont la langue doit être détectée',
+      },
+
+      // ---------------- File: Translate File ----------------
+      {
+        displayName: 'Binary Property',
+        name: 'binaryPropertyName',
+        type: 'string',
+        default: 'data',
+        required: true,
+        displayOptions: { show: { resource: ['file'], operation: ['translateFile'] } },
+        description: 'Nom de la propriété binaire contenant le fichier à traduire',
+      },
+      {
+        displayName: 'Source Language Name or ID',
+        name: 'source',
+        type: 'options',
+        typeOptions: { loadOptionsMethod: 'getSourceLanguages' },
+        default: 'auto',
+        required: true,
+        displayOptions: { show: { resource: ['file'], operation: ['translateFile'] } },
+        description:
+          'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>',
+      },
+      {
+        displayName: 'Target Language Name or ID',
+        name: 'target',
+        type: 'options',
+        typeOptions: { loadOptionsMethod: 'getLanguages' },
+        default: '',
+        required: true,
+        displayOptions: { show: { resource: ['file'], operation: ['translateFile'] } },
         description:
           'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>',
       },
