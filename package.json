@@ -1,9 +1,9 @@
 {
-	"name": "n8n-nodes-libretranslate",
+	"name": "n8n-nodes-libretranslate-api",
 	"version": "0.1.0",
 	"description": "Nœud n8n communautaire pour interroger l'API LibreTranslate (traduction, détection de langue, traduction de fichiers)",
 	"license": "MIT",
-	"homepage": "https://github.com/tsnaketech/n8n-nodes-libretranslate",
+	"homepage": "https://github.com/tsnaketech/n8n-nodes-libretranslate-api",
 	"keywords": [
 		"n8n-community-node-package",
 		"libretranslate",
@@ -15,7 +15,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/tsnaketech/n8n-nodes-libretranslate.git"
+		"url": "https://github.com/tsnaketech/n8n-nodes-libretranslate-api.git"
 	},
 	"scripts": {
 		"build": "n8n-node build",

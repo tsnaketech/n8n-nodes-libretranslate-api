@@ -1,4 +1,4 @@
-# n8n-nodes-libretranslate
+# n8n-nodes-libretranslate-api
 
 Nodo comunitario de n8n para la API de [LibreTranslate](https://libretranslate.com/docs/), una API de traducción automática libre y de código abierto (AGPL-3.0).
 
@@ -16,7 +16,7 @@ Otros idiomas: [English](README.md) · [Français](README.fr.md) · [Deutsch](RE
 
 ## Instalación
 
-Sigue la [guía de instalación](https://docs.n8n.io/integrations/community-nodes/installation/) de la documentación de nodos comunitarios de n8n, e instala el paquete `n8n-nodes-libretranslate`.
+Sigue la [guía de instalación](https://docs.n8n.io/integrations/community-nodes/installation/) de la documentación de nodos comunitarios de n8n, e instala el paquete `n8n-nodes-libretranslate-api`.
 
 ## Operaciones
 
@@ -63,7 +63,7 @@ npm run lint
 npm run build
 npm link
 cd ~/.n8n/custom   # o la carpeta custom de tu instancia de n8n
-npm link n8n-nodes-libretranslate
+npm link n8n-nodes-libretranslate-api
 ```
 
 Luego reinicia n8n. El nodo «LibreTranslate» aparecerá en la lista de nodos.
